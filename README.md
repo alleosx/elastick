@@ -1,42 +1,41 @@
-# elastick
-Характеристики разворачиваемых сервисов:
+## Kanban Application
 
-PostgreSQL в standalone-варианте
+This is a simple implementation of a Kanban Board, a tool that helps visualize and manage work. Originally it was first created in Toyota automotive, but nowadays it's widely used in software development.
 
-Тип хранилища - persistent volume. При удалении контейнера данные должны сохраняться и быть доступны при последующем запуске нового контейнера PostgreSQL
+A Kanban Board is usually made of 3 columns - *TODO*, *InProgres*s & *Done*. In each column there are Post-it notes that represents task and their status.
 
-pgAdmin развернуть в отдельном контейнере и настроить подключение к БД.
+As already stated this project is an implementation of such board and made of 3 separate Docker containers that holds:
 
-Тип хранилища - persistent volume. При удалении контейнера и последующем запуске нового инстанса данные о подключении к БД должны сохраняться
+- PostgreSQL database
+- Java backend (Spring Boot)
+- Angular frontend
 
-При переходе по адресу pgadmin.test.com должен открываться интерфейс pgAdmin,  выставить логин/пароль на вход mail@test.com / kanban
 
-TaskManagerApp
 
-В качестве рабочей СУБД должен использоваться инстанс развернутой ранее в контейнере PostgreSQL.
 
-При переходе по адресу kanban.test.com открывается TaskManagerApp
+---
 
-При переходе по адресу swagger.test.com/api/swagger-ui.html открывается интерфейс Kanban REST API
+### Prerequisites
 
-Запуск всех сервисов должен выполняться при помощи инструмента docker compose
+In order to run this application you need to install two tools: **Docker** & **Docker Compose**.
 
-Развернуты контейнеры с Prometheus и Grafana.
+Instructions how to install **Docker** on [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/), [Windows](https://docs.docker.com/docker-for-windows/install/), [Mac](https://docs.docker.com/docker-for-mac/install/).
 
-Prometheus в standalone-варианте. Тип хранилища - persistent volume. При удалении контейнера данные должны сохраняться и быть доступны при последующем запуске нового контейнера 
+**Docker Compose** is already included in installation packs for *Windows* and *Mac*, so only Ubuntu users needs to follow [this instructions](https://docs.docker.com/compose/install/).
 
-Развернуты экспортеры для сбора метрик в Prometheus:
 
-nginx_exporter для сбора метрик с Nginx
-node_exporter для сбора метрик хостовой машины
-postgres_exporter для сбора метрик с БД
+### How to run it?
 
-Метрика по jvm с TaskManagerApp: 
+The entire application can be run with a single command on a terminal:
 
-Развернуты контейнеры с EFK stack в standalone-варианте.
+```
+$ docker-compose up -d
+```
 
-Elasticsearch Тип хранилища - persistent volume. При удалении контейнера данные должны сохраняться и быть доступны при последующем запуске нового контейнера.
+If you want to stop it, use the following command:
 
-Fluentd для агрегации логов Nginx-proxy через отдельный volume,
+```
+$ docker-compose down
+```
 
-Kibana как средство просмотра логов
+---

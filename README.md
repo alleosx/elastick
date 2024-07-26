@@ -1,41 +1,29 @@
-## Kanban Application
+Характеристики разворачиваемых сервисов:
 
-This is a simple implementation of a Kanban Board, a tool that helps visualize and manage work. Originally it was first created in Toyota automotive, but nowadays it's widely used in software development.
+PostgreSQL в standalone-варианте
+Тип хранилища - persistent volume. При удалении контейнера данные должны сохраняться и быть доступны при последующем запуске нового контейнера PostgreSQL
 
-A Kanban Board is usually made of 3 columns - *TODO*, *InProgres*s & *Done*. In each column there are Post-it notes that represents task and their status.
+pgAdmin развернут в отдельном контейнере.
+Тип хранилища - persistent volume. При удалении контейнера и последующем запуске нового инстанса данные о подключении к БД должны сохраняться
+При переходе по адресу pgadmin.test.com должен открываться интерфейс pgAdmin,  выставить логин/пароль на вход mail@test.com / kanban
 
-As already stated this project is an implementation of such board and made of 3 separate Docker containers that holds:
+TaskManagerApp
+В качестве рабочей СУБД должен использоваться инстанс развернутой ранее в контейнере PostgreSQL.
+При переходе по адресу kanban.test.com открывается TaskManagerApp
+При переходе по адресу swagger.test.com/api/swagger-ui.html открывается интерфейс Kanban REST API
 
-- PostgreSQL database
-- Java backend (Spring Boot)
-- Angular frontend
+Развернуты контейнеры Prometheus и Grafana.
 
+Prometheus в standalone-варианте. Тип хранилища - persistent volume. При удалении контейнера данные должны сохраняться и быть доступны при последующем запуске нового контейнера 
+РазвернутЫ экспортеры для сбора метрик в Prometheus:
 
+nginx_exporter для сбора метрик с Nginx
+node_exporter для сбора метрик хостовой машины
+postgres_exporter для сбора метрик с БД
+Метрика по jvm с TaskManagerApp:
 
+Развернуты контейнеры с EFK stack в standalone-варианте.
+Elasticsearch Тип хранилища - persistent volume. При удалении контейнера данные должны сохраняться и быть доступны при последующем запуске нового контейнера.
+Fluentd для агрегации логов Nginx через отдельный volume nginx-proxy.
 
----
-
-### Prerequisites
-
-In order to run this application you need to install two tools: **Docker** & **Docker Compose**.
-
-Instructions how to install **Docker** on [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/), [Windows](https://docs.docker.com/docker-for-windows/install/), [Mac](https://docs.docker.com/docker-for-mac/install/).
-
-**Docker Compose** is already included in installation packs for *Windows* and *Mac*, so only Ubuntu users needs to follow [this instructions](https://docs.docker.com/compose/install/).
-
-
-### How to run it?
-
-The entire application can be run with a single command on a terminal:
-
-```
-$ docker-compose up -d
-```
-
-If you want to stop it, use the following command:
-
-```
-$ docker-compose down
-```
-
----
+Kibana как средство просмотра логов
